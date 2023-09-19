@@ -22,11 +22,6 @@ def classifier (X, threshold):
     ...
 ```
 
-After modification one has to push the changes to GitHub manually:
-
-```bash
-git push origin branch_name
-```
 **Note**:
 * ```#END_SOLUTION``` tag can not be last line in a cell. If this is the case put ```pass``` statement after it:
 
