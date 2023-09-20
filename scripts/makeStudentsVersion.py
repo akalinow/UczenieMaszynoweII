@@ -16,7 +16,7 @@ def adaptFiles(input_file_names):
             continue
         output_file_name = "studentsVersions/"+input_file_name
         output_file = open(output_file_name, "w")
-        result = subprocess.run(["awk", " /#BEGIN_SOLUTION/{p=1}/#END_SOLUTION/{p=0;print \"    \\\"...\\\\n\\\", \";next}!p", input_file_name],
+        result = subprocess.run(["awk", " /#BEGIN_SOLUTION/{p=1}/#END_SOLUTION/{p=0;print \"    \\\"...rozwiązanie...\\\\n\\\", \";next}!p", input_file_name],
                                 text=True, stdout=output_file)
                             
 #################################################################
