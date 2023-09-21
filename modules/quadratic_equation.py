@@ -40,7 +40,7 @@ def plotQuadraticEqSolvability(data, interactive=False):
         cbar = fig.colorbar(pathes, aspect = 4, fraction=0.10, pad=0.1, 
                             boundaries = (-0.5,0.5,1.5),
                             ticks = (0.0, 1.0),
-                            label="has solution? 0/1")
+                            label="has solution?")
         axis.set_xlabel('a')
         axis.set_ylabel('b')
         axis.set_zlabel('c')
