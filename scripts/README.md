@@ -5,7 +5,11 @@ Students version - stripped from solutions can be generated automatically using 
 [scripts/makeStudentsVersion.py][scripts/makeStudentsVersion.py] script.
 This script removes code fragments between `#BEGIN_SOLUTION` and `#END_SOLUTION` tags
 and copies it to the [studentsVersions](studentsVersions) directory.
+Script usage:
 
+```Python
+./scripts/makeStudentsVersion.py -i 03_Trening_modelu.ipynb
+```
 
 Space between tags will be substituted with a single line with three dots: 
 
