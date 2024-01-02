@@ -5,15 +5,19 @@ import numpy as np
 ###################################################################### 
 ######################################################################
 def plotTrainHistory(history):
+
+    #Note: validation metric is calculated at the end of epoch,
+    #wile training metric is calculated as walking mean during the epoch
+    epochMiddle = np.arange(0.5, len(history.history['loss'])+0.5, 1)
     
     fig, axes = plt.subplots(1,2, figsize=(7,3))
-    axes[0].plot(history.history['loss'], label = 'train')
+    axes[0].plot(epochMiddle, history.history['loss'], label = 'train')
     axes[0].plot(history.history['val_loss'], label = 'validation')
     axes[0].set_xlabel('Epoch')
     axes[0].set_ylabel('Loss function')
     axes[0].legend(loc='upper right')
     
-    axes[1].plot(history.history['loss'], label = 'train')
+    axes[1].plot(epochMiddle, history.history['loss'], label = 'train')
     axes[1].plot(history.history['val_loss'], label = 'validation')
     axes[1].set_xlabel('Epoch')
     axes[1].set_ylabel('Loss function')

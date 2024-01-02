@@ -1,5 +1,9 @@
+import tensorflow as tf
 import numpy as np
+import matplotlib as mpl
 import matplotlib.pyplot as plt
+from termcolor import colored
+
 
 ###############################################
 def quadraticEqGenertor(nSamples):
@@ -46,3 +50,55 @@ def plotQuadraticEqSolvability(data, interactive=False):
         axis.set_zlabel('c')
 ###############################################
 ###############################################
+def plotSqEqSolutions(x, y, y_pred):
+    
+    fig, axes = plt.subplots(1,2, figsize=(12,4))
+
+    pull = (y - y_pred)/y
+    pull = pull.flatten()
+    threshold = 1E-2
+    print(colored("Fraction of events with Y==Y_pred:","blue"),np.mean(np.isclose(y, y_pred)))
+    print(colored("Fraction of examples with abs(pull)<0.01:","blue"),"{:3.2f}".format(np.mean(np.abs(pull)<threshold)))
+    print(colored("Pull standard deviation:","blue"),"{:3.2f}".format(pull.std()))
+    
+    axes[0].hist(pull, bins=np.linspace(-1.5,1.5,40), label="(True-Pred)/Pred");
+    axes[0].legend()
+
+    axes[1].axis(False)
+    axis = fig.add_subplot(133, projection='3d')
+
+    pull = (y - y_pred)/y
+    colors = np.abs(pull)<threshold
+    colors = np.sum(colors, axis=1)
+
+    cmapName = plt.rcParams["image.cmap"]
+    cmap = mpl.colormaps[cmapName]
+    axis.scatter(x[:,0:1], x[:,1:2], x[:,2:3], c = colors);
+    axis.plot((-2), (-2), (-2), label=r'$\frac{true-pred}{true}>0.01$', marker='o', color=cmap(0))
+    axis.legend(bbox_to_anchor=(1.5,1), loc='upper left')
+    axis.set_xlabel("a")
+    axis.set_ylabel("b")
+    axis.set_zlabel("c");
+    axis.set_xlim([-1.1,1.1])
+    axis.set_ylim([-1.1,1.1])
+    axis.set_zlim([-1.1,1.1])
+
+    plt.subplots_adjust(bottom=0.15, left=0.05, right=0.95, wspace=0.35, hspace=0.0)
+###############################################
+###############################################
+class QuadraticEquationLoss(tf.keras.losses.Loss):
+    
+    def __init__(self, name='QuadraticEquationLoss'):
+        super().__init__(name=name)
+
+    def call(self, y_true, y_pred):
+        a = y_true[:,0:1]
+        b = y_true[:,1:2]
+        c = y_true[:,2:3]
+
+        loss = a*y_pred**2+b*y_pred+c
+        loss = loss**2
+        loss = tf.math.reduce_mean(loss**2, axis=1)
+        return loss
+###############################################
+###############################################       
