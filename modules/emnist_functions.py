@@ -8,6 +8,7 @@ import matplotlib.pyplot as plt
 import matplotlib.ticker as ticker
 
 from sklearn.metrics import ConfusionMatrixDisplay
+import plotting_functions as plf
 
 ###############################################
 ###############################################
@@ -73,7 +74,38 @@ def getModel(inputShape, nNeurons, hiddenActivation="relu", outputActivation="li
     model = tf.keras.Model(inputs=inputs, outputs=outputs, name="DNN")
     return model
 ###############################################
-###############################################   
+###############################################  
+def trainModel(model, features, labels, nEpochs=200):
+    
+    #configure learning process
+    initial_learning_rate = 1E-3
+    batchSize = 64
+
+    nStepsPerEpoch = len(features)/batchSize
+    lr_schedule = tf.keras.optimizers.schedules.ExponentialDecay(initial_learning_rate,
+                    decay_steps=nStepsPerEpoch*10,
+                    decay_rate=0.95,
+                    staircase=False)
+    
+    model.compile(optimizer=tf.keras.optimizers.Adam(learning_rate=lr_schedule), 
+                  loss='sparse_categorical_crossentropy',
+                  metrics=['accuracy'])
+    
+    #run training
+    early_stop_callback = tf.keras.callbacks.EarlyStopping(monitor='val_accuracy', patience=5, verbose=1, min_delta=1E-3)
+    callbacks = [early_stop_callback]
+    
+    history = model.fit(x=features, y=labels, 
+                        epochs=nEpochs, 
+                        batch_size = batchSize,
+                        validation_split=0.1,
+                        callbacks=callbacks,
+                        verbose=0)
+    plf.plotTrainHistory(history)
+    print(colored("Evaluation on training dataset:","blue"))
+    model.evaluate(features, labels)
+###############################################
+###############################################  
 def encodeMessage(text, features, labels):
 
     digits = [str(item) for item in range(0,10)]
