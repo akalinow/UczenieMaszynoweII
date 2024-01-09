@@ -61,7 +61,7 @@ def plotSqEqSolutions(x, y, y_pred):
     print(colored("Fraction of examples with abs(pull)<0.01:","blue"),"{:3.2f}".format(np.mean(np.abs(pull)<threshold)))
     print(colored("Pull standard deviation:","blue"),"{:3.2f}".format(pull.std()))
     
-    axes[0].hist(pull, bins=np.linspace(-1.5,1.5,40), label="(True-Pred)/Pred");
+    axes[0].hist(pull, bins=np.linspace(-1.5,1.5,40), label="(True-Pred)/True");
     axes[0].legend()
 
     axes[1].axis(False)
@@ -97,7 +97,6 @@ class QuadraticEquationLoss(tf.keras.losses.Loss):
         c = y_true[:,2:3]
 
         loss = a*y_pred**2+b*y_pred+c
-        loss = loss**2
         loss = tf.math.reduce_mean(loss**2, axis=1)
         return loss
 ###############################################
