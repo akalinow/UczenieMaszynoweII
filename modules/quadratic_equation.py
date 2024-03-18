@@ -6,7 +6,7 @@ from termcolor import colored
 
 
 ###############################################
-def quadraticEqGenertor(nSamples):
+def quadraticEqGenerator(nSamples):
     return np.random.default_rng().uniform(-1,1,(nSamples,3))
 ###############################################
 def quadraticEqSolution(coeff):
