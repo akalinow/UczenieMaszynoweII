@@ -20,9 +20,9 @@ def quadraticEqSolution(coeff):
     
     result = np.where(delta>0, np.sqrt(delta), 0.0)
     result = result*np.array([-1,1])
-    result = (result - b)/(2.0*a)
     result = np.where(delta>0, result, None)
-    
+    result = np.where(np.abs(a)>1E-10,result, -c/b)
+    result = np.where(np.abs(b)>1E-10,result, None)    
     return result 
 ###############################################
 def plotQuadraticEqSolvability(data, interactive=False):
