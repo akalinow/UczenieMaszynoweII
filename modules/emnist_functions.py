@@ -32,6 +32,9 @@ def plotMNIST(x, y, y_pred):
     letters_lower = list(string.ascii_lowercase)
     letters_upper = list(string.ascii_uppercase)
 
+    if tf.rank(x)==4:   #remove the channel dimension
+        x = x[:,:,:,0]  #which is not always present
+
     for index, axis in zip(indices, axes.flatten()): 
         title = "{}/{}".format(y[index],y_pred[index])
         if y[index]>9 and y[index]-10<len(letters_upper):
