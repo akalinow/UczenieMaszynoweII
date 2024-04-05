@@ -37,7 +37,7 @@ def load_wksf_dataset(filePath):
     dataset = dataset.map(lambda x: tf.strings.regex_replace(x, "\[[0-9]+\]", "", replace_global=True))
     return dataset
 #####################################################################
-def load_wikipedia_daset(filePath):
+def load_wikipedia_dataset(filePath, batchSize):
 
     dataset = tf.keras.preprocessing.text_dataset_from_directory(filePath,
                 labels=None, label_mode=None, class_names=None, batch_size=batchSize,
