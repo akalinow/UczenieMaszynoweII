@@ -21,7 +21,7 @@ def quadraticEqSolution(coeff):
     result = np.where(delta>0, np.sqrt(delta), 0.0)
     result = result*np.array([-1,+1])
     result = (-b+result)/(2*a)
-    result = np.where(delta>0, result, None)
+    result = np.where(delta>0, result, (None, None))
     result = np.where(np.abs(a)>1E-10, result, np.array((-c/b, -c/b)).reshape(-1,2))  
     return result 
 ###############################################
@@ -74,7 +74,9 @@ def plotSqEqSolutions(x, y, y_pred):
     cmapName = plt.rcParams["image.cmap"]
     cmap = mpl.colormaps[cmapName]
     axis.scatter(x[:,0:1], x[:,1:2], x[:,2:3], c = colors);
-    axis.plot((-2), (-2), (-2), label=r'$\frac{true-pred}{true}>0.01$', marker='o', color=cmap(0))
+    axis.scatter((-2), (-2), (-2), label='none correct', marker='o', color=cmap.colors[1])
+    axis.scatter((-2), (-2), (-2), label='single correct', marker='o', color=cmap.colors[128])
+    axis.scatter((-2), (-2), (-2), label='double correct', marker='o', color=cmap.colors[-1])
     axis.legend(bbox_to_anchor=(1.5,1), loc='upper left')
     axis.set_xlabel("a")
     axis.set_ylabel("b")
