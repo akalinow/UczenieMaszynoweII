@@ -27,6 +27,7 @@ def getEMNIST(datasetName, datasetPath):
 ###############################################  
 def plotMNIST(x, y, y_pred): 
     indices = np.random.default_rng().integers(0, len(x), (4))
+    #indices = [0,1,2,3]
     fig, axes = plt.subplots(2, 2, figsize=(4.5,4.5))
 
     letters_lower = list(string.ascii_lowercase)
@@ -37,8 +38,10 @@ def plotMNIST(x, y, y_pred):
 
     for index, axis in zip(indices, axes.flatten()): 
         title = "{}/{}".format(y[index],y_pred[index])
-        if y[index]>9 and y[index]-10<len(letters_upper):
+        if y[index]>9 and y[index]-10<len(letters_lower):
             title = "{}/{}".format(letters_upper[y[index]-10],letters_upper[y_pred[index]-10])
+        elif y[index]-10>=len(letters_lower):
+            title = "{}/{}".format(letters_lower[y[index]-10],letters_lower[y_pred[index]-10])
         axis.imshow(tf.transpose(x[index]), cmap=plt.get_cmap('Reds'), label="A")
         axis.set_title(title)
 
@@ -51,8 +54,9 @@ def plotMNIST_CM(y,y_pred, title):
     fig, axis = plt.subplots(1, 1, figsize=(15,15))
 
     digits = [str(item) for item in range(0,10)]
+    letters_upper = list(string.ascii_uppercase)
     letters_lower = list(string.ascii_lowercase)
-    labels = digits + letters_lower
+    labels = digits + letters_upper
 
     ConfusionMatrixDisplay.from_predictions(y, y_pred, normalize="true", 
                                         values_format=".2f",
@@ -112,8 +116,8 @@ def trainModel(model, features, labels, nEpochs=200):
 def encodeMessage(text, features, labels):
 
     digits = [str(item) for item in range(0,10)]
-    letters_lower = list(string.ascii_lowercase)
-    digits_letters = np.array(digits + letters_lower)
+    letters_upper = list(string.ascii_uppercase)
+    digits_letters = np.array(digits + letters_upper)
         
     fig, axes = plt.subplots(1, len(text), figsize=(10,50))
     if len(text)==1:
