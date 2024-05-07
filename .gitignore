@@ -1,0 +1,18 @@
+# ignore checkpoints files
+*checkpoint*
+
+# ignore data files
+data/*
+
+# ignore pyc files
+*.pyc
+
+# ignore png files
+*/fig_png/*
+
+# ignore model files
+training/*
+*/training/*
+
+# ignore vscode files
+.vscode/
