@@ -16,3 +16,6 @@ training/*
 
 # ignore vscode files
 .vscode/
+
+# ignore students versions
+studentsVersions/*
