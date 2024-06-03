@@ -35,6 +35,7 @@ def load_wksf_dataset(filePath):
     dataset = dataset.filter(lambda x: not tf.strings.regex_full_match(x, ".*[~].*"))
     dataset = dataset.filter(lambda x: not tf.strings.regex_full_match(x, ".*[<].*"))
     dataset = dataset.map(lambda x: tf.strings.regex_replace(x, "\[[0-9]+\]", "", replace_global=True))
+    dataset = dataset.map(lambda x: tf.strings.regex_replace(x, "\[\/\]", "", replace_global=True))
     return dataset
 #####################################################################
 def load_wikipedia_dataset(filePath, batchSize):
