@@ -32,10 +32,10 @@ def load_wksf_dataset(filePath):
         fileList = [filePath]
     print(colored("Reading text from files:","blue"),fileList)
     dataset = tf.data.TextLineDataset(fileList)
-    dataset = dataset.filter(lambda x: not tf.strings.regex_full_match(x, ".*[~].*"))
-    dataset = dataset.filter(lambda x: not tf.strings.regex_full_match(x, ".*[<].*"))
-    dataset = dataset.map(lambda x: tf.strings.regex_replace(x, "\[[0-9]+\]", "", replace_global=True))
-    dataset = dataset.map(lambda x: tf.strings.regex_replace(x, "\[\/\]", "", replace_global=True))
+    dataset = dataset.filter(lambda x: not tf.strings.regex_full_match(x, ".*[~].*")) # remove lines with references
+    dataset = dataset.filter(lambda x: not tf.strings.regex_full_match(x, ".*[<].*")) #remove lines with tags
+    dataset = dataset.map(lambda x: tf.strings.regex_replace(x, "\[[0-9]+\]", "", replace_global=True)) #remove fragments with reference numbers: []
+    dataset = dataset.map(lambda x: tf.strings.regex_replace(x, "\[\/\]", "", replace_global=True)) # remove fragments wit [/]
     return dataset
 #####################################################################
 def load_wikipedia_dataset(filePath, batchSize):
